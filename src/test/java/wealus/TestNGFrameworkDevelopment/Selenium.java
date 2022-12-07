@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.internal.junit.ExactComparisonCriteria;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -52,6 +53,21 @@ public class Selenium {
 			}
 
 		}
+
+		d.findElement(By.xpath("//input[@placeholder='Select Country']")).sendKeys("Ind");
+		List<WebElement> countryList = d.findElements(By.className("ta-item"));
+		for (WebElement country : countryList) {
+			if (country.getText().equalsIgnoreCase("India")) {
+				country.click();
+				break;
+			}
+		}
+		d.findElement(By.className("action__submit")).click();
+
+		String successMessage = d.findElement(By.className("hero-primary")).getText();
+		Assert.assertEquals(successMessage, "THANKYOU FOR THE ORDER.");
+		d.close();
+
 	}
 
 }
